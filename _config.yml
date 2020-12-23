@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Chalkim's Blog
 subtitle: ''
 description: ''
 keywords:
-author: John Doe
-language: en
+author: chalkim
+language: zh-CN
 timezone: ''
 
 # URL
@@ -88,6 +88,11 @@ updated_option: 'mtime'
 ## Set per_page to 0 to disable pagination
 per_page: 10
 pagination_dir: page
+
+# https://github.com/viko16/hexo-permalink-pinyin
+permalink_pinyin:
+  enable: true
+  separator: '-' # default: '-'
 
 # Include / Exclude file(s)
 ## include:/exclude: options only apply to the 'source/' folder
