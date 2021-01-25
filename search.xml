@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>算法基础-分治法</title>
+    <url>/2021/01/25/suan-fa-ji-chu-fen-zhi-fa/</url>
+    <content><![CDATA[<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;分治法是一种常见的算法设计思想。许多算法在结构上是递归的，这些算法采用的往往就是分治法。分治法的思想是将复杂问题分解为几个规模较小的但形式类似于原问题的子问题。递归地求解出子问题，再合并子问题的解，从而构建出原问题的解。</p>
+<p>&emsp;&emsp;分治法在每层递归有三个步骤：</p>
+<blockquote>
+<ol>
+<li>分解原问题为若干子问题；</li>
+<li>解决子问题；</li>
+<li>合并子问题的解，建立原问题的解。</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p>&emsp;&emsp;其中一个典型的应用就是归并排序，上述三个步骤对应描述如下：</p>
+<blockquote>
+<ol>
+<li>分解：将待排序的n个元素分解为两个包含n/2元素的子序列；</li>
+<li>解决：使用归并排序递归地排序两个子序列；</li>
+<li>合并：合并两个已排序的子序列。</li>
+</ol>
+</blockquote>
+<p>&emsp;&emsp;由于算法是递归的，所以可以预见到递归的末端所需处理的子序列长度均为1。此时对于这些子序列不需我们进行任何多余工作即自然地满足排序的要求。</p>
+<p>&emsp;&emsp;分解工作完成后，下一步操作就需要解决问题。解决问题的操作是调用了一个MERGE的辅助过程。该过程对两个已排好序的子序列进行合并，产生一个新的顺序序列。</p>
+<p>&emsp;&emsp;对于MERGE具体的思想是：重复比较两个子序列的首个元素，取其中最小的元素，将其添加到新产生的顺序序列中。直到一个子序列的所有元素都被添加到新序列中，此时可以确保另外一个非空的子序列均比已经处理的元素要大。因此我们可以直接将其合并。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; MERGE 伪代码描述</span><br><span class="line">MERGE(A, p, q, r)</span><br><span class="line">&#x2F;&#x2F; 其中A是一个数组。A[p, q]和A[q + 1, r]是已经排序的两个子序列。</span><br><span class="line">    n1 &#x3D; q - p + 1                       &#x2F;&#x2F; 序列1包含的元素数量</span><br><span class="line">    n2 &#x3D; r - q                           &#x2F;&#x2F; 序列2包含的元素数量</span><br><span class="line">    let L[1..n1+1] and R[1..n2+1] be new arrays</span><br><span class="line">    for i &#x3D; 1 to n1</span><br><span class="line">        L[i] &#x3D; A[p + i - 1]</span><br><span class="line">    for j &#x3D; 1 to n2</span><br><span class="line">        R[j] &#x3D; A[q + j]                  &#x2F;&#x2F; 复制</span><br><span class="line">    L[n1 + 1] &#x3D; inf                      &#x2F;&#x2F; 两个inf是标志算法可以停止的哨兵</span><br><span class="line">    R[n2 + 1] &#x3D; inf                      &#x2F;&#x2F; 这里是为了简化代码实现</span><br><span class="line">    i &#x3D; 1</span><br><span class="line">    j &#x3D; 1</span><br><span class="line">    for k &#x3D; p to r                       &#x2F;&#x2F; 假设j &#x3D; n2+1，则L[i]均比R[j]小</span><br><span class="line">        if L[i] &lt;&#x3D; R[j]                  &#x2F;&#x2F; 比较首元素大小</span><br><span class="line">            A[k] &#x3D; L[i]</span><br><span class="line">            i &#x3D; i + 1</span><br><span class="line">        else                             &#x2F;&#x2F; 放置较小的那一个</span><br><span class="line">            A[k] &#x3D; R[j]</span><br><span class="line">            j &#x3D; j + 1</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;现在我们已经具备了完成该算法的所有条件了，让我们完成它。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MERGE-SORT(A, p, r)</span><br><span class="line">&#x2F;&#x2F; A[p, r]是一个数组，即待排序序列</span><br><span class="line">    if p &lt; r</span><br><span class="line">        q &#x3D; (p + r) &#x2F; 2                  &#x2F;&#x2F; 向下取整</span><br><span class="line">        MERGE-SORT(A, p, q)</span><br><span class="line">        MERGE-SORT(A, q+1, r)            &#x2F;&#x2F; 分割原序列为两个序列</span><br><span class="line">        MERGE(A, p, q, r)                &#x2F;&#x2F; 合并两个已排序的子序列</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;值得注意的是，当A只含1项时该过程的行为。A.length = 1时，有p = r，不满足判断条件，即该过程什么都不做。两个长度为1的子序列MERGE成为一个长为2的新序列…</p>
+<p>&emsp;&emsp;以此类推，自底向上，由小序列不断合成为新序列，最终完成原序列的排序工作。自此我们终于完成了归并排序的算法设计。</p>
+<pre class="mermaid">graph BT
+    12[2 5]
+    1[5]-->|归并|12
+    2[2]-->|归并|12
+    34[4 7]
+    3[4]-->|归并|34
+    4[7]-->|归并|34
+    1234[2 4 5 7]
+    12-->|归并|1234
+    34-->|归并|1234</pre>
+
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>&emsp;&emsp;我们知道归并排序最坏情况下的运行时间为$\theta(nlgn)$，而插入排序则为$\theta(n^2)$。显然归并排序在输入足够大的最坏情况下要快于插入排序。为什么？</p>
+<p>&emsp;&emsp;分析程序运行步骤我们可以得到以下结论：</p>
+<blockquote>
+<ol>
+<li>分解：将原序列分解为两个子序列，耗费theta(1)时间</li>
+<li>解决：递归地解决两个规模为n/2的子问题，耗费2T(n/2)时间</li>
+<li>合并：MERGE过程最多需要处理n个元素，因此耗费theta(n)时间</li>
+</ol>
+</blockquote>
+<p>&emsp;&emsp;因此我们获得了最坏情况下T(n)的递归式：</p>
+<p>$$<br>T(n)=<br>\begin{cases}<br>\theta(1)&amp;若n=1\<br>2T(n/2)+\theta(n)&amp;若n&gt;1<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;求为解该表达式，我们需要引入一个定理。</p>
+<blockquote>
+<p>&emsp;&emsp;要求解$T(n)=aT(n/b)+f(n)$的渐进界，其中$a\geq1,b&gt;1$为常数，$f(n)$为一个函数。<br>则有以下三种情况：</p>
+<ol>
+<li>若对某个常数$\epsilon&gt;0$有$f(n)=O(n^{log_ba-\epsilon})$，则$T(n)=\theta(n^{log_ba})$。</li>
+<li>若$f(n)=\theta(n^{log_ba})$，则$T(n)=\theta(n^{log_ba}lgn)$。</li>
+<li>若对某个常数$\epsilon&gt;0$有$f(n)=\Omega(n^{log_ba+\epsilon})$，且对某个常数$c&lt;1$和所有足够大的$n$有$af(n/b)\leq cf(n)$，则$T(n)=\theta(f(n))$。</li>
+</ol>
+</blockquote>
+<p>&emsp;&emsp;对于归并排序算法，我们有$a=2,b=2,f(n)=\theta(n)$，则$n^{log_ba}=n^{log_22}=n$，两者大小相当，应用情况2。于是我们求得$T(n)=\theta(nlgn)$。</p>
+]]></content>
+      <categories>
+        <category>算法基础</category>
+        <category>分治法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>分治法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算法基础-贪心算法</title>
+    <url>/2021/01/22/suan-fa-ji-chu-tan-xin-suan-fa/</url>
+    <content><![CDATA[<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>&emsp;&emsp;在现实世界中我们会遇到一种问题：对于给定的n个输入，其解由这n个输入的某子集组成，该子集满足某种给定<strong>约束条件</strong>。对于某一问题来说，满足约束条件的<strong>可行解</strong>可能不止一个。为了衡量解的优劣，事先给出了判断的标准，即<strong>目标函数</strong>。使目标函数取得极值的解，即为<strong>最优解</strong>。</p>
+<p>&emsp;&emsp;为了解决这类最优解问题，有线性规划、整数规划、非线性规划等等一系列算法。但对于其中的一些问题，可以用一种更直接的方法进行求解——贪心算法。</p>
+<a id="more"></a>
+<h3 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h3><p>&emsp;&emsp;贪心算法是一种改进了的分级处理方法。首先根据问题选取一种度量方法；然后按照度量标准对n个输入排序，并按序一次输入一个量。如果该输入和当前已经构成的部分最优解加一起不能构成可行解，则不把该输入加入到解中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 贪心算法的伪代码描述</span><br><span class="line">procedure GREEDY(A, n)                           &#x2F;&#x2F; A(1 : n) 包含n个输入</span><br><span class="line">    solution &lt;- NULL                             &#x2F;&#x2F; 解向量初始化为空</span><br><span class="line">    for i &lt;- 1 to n do</span><br><span class="line">        x &lt;- SELECT(A)                           &#x2F;&#x2F; 按照某种度量方法选择一个输入</span><br><span class="line">        if FEASIBLE(solution, x)                 &#x2F;&#x2F; 判断包含x的集是否为可行解</span><br><span class="line">            then solution &lt;- UNION(solution, x)  &#x2F;&#x2F; 如可行，将x作为可行解的一部分</span><br><span class="line">        endif</span><br><span class="line">    repeat</span><br><span class="line">    return(solution)</span><br><span class="line">end GREEDY</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;要注意的是，许多量度标准取得的解并不是最优解，而是次优解。把目标函数作为量度标准的解也不一定是问题的最优解。实际上，选出最优量度标准不是是一件容易的事。</p>
+<h3 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h3><p>&emsp;&emsp;设想这样一个场景：有一个最大承重$M$的背包，对于每种物品$i$的重量为$W_i$。假定当物品$i$的一部分$x_i$装入背包中可以获得$p_i x_i$的效益（$0 \leq x_i \leq 1, p_i &gt; 0$）。求采用何种策略才能使得效益最大化？</p>
+<p>&emsp;&emsp;以上问题可以用数学语言描述如下：</p>
+<ul>
+<li>目标函数（取极大值）<br>$$<br>\sum\limits_{1 \leq i \leq n} p_i x_i<br>$$</li>
+<li>约束条件<br>$$<br>\sum\limits_{1 \leq i \leq n} w_i x_i \leq M<br>$$<br>$$<br>0 \leq x_i \leq 1 , p_i &gt; 0, 1 \leq i \leq n<br>$$</li>
+</ul>
+<p>&emsp;&emsp;自然我们会希望背包装的东西在占用重量少的情况下又尽可能地能产生更大的效益。因此，我们可以把$p_i / w_i$作为量度标准。经过测试，采用这种量度标准的贪心算法可以获得最优解。将物体按$p_i / w_i$的递减次序排序，则过程 GREEDY-KNAPSACK 就得出一个最优解。如果不考虑排序的时间，则算法的需要的时间为O(n)。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">procedure GREEDY-KNAPSACK(P, W, M, X, n)</span><br><span class="line">    &#x2F;&#x2F; P(1:n)和W(1:n)分别含有按P(i)&#x2F;W(i) &gt;&#x3D; P(i+1)&#x2F;W(i+1)排序的n件物品的效益值和</span><br><span class="line">    &#x2F;&#x2F; 重量。M是背包的容量大小，X(1:n)是解向量。</span><br><span class="line">    real P(1:n), W(1:n), X(1:n), M, cu;</span><br><span class="line">    integer i, n;</span><br><span class="line">    X &lt;- 0     &#x2F;&#x2F; 将解向量初始化为0</span><br><span class="line">    cu &lt;- M    &#x2F;&#x2F; cu是背包剩余容量</span><br><span class="line">    for i &lt;- 1 to n do</span><br><span class="line">        if W(i) &gt; cu then exit endif</span><br><span class="line">        X(i) &lt;- 1</span><br><span class="line">        cu &lt;- cu - W(i)</span><br><span class="line">    repeat</span><br><span class="line">    if i &lt;&#x3D; n then X(i) &lt;- cu&#x2F;W(i)</span><br><span class="line">    endif</span><br><span class="line">end GREEDY-KNAPSACK</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;由此可见，贪心算法的核心在于量度标准的选取。</p>
+<h3 id="如何证明？"><a href="#如何证明？" class="headerlink" title="如何证明？"></a>如何证明？</h3><p>&emsp;&emsp;以上我们提到的关于背包问题的一种策略的解是最优解。我们该如何证明这一点呢？</p>
+<p>&emsp;&emsp;有一个基本的想法是，把贪心算法的解与任一已知最优解作比较。如果这两个解不同，则按照解向量依次对$x_i$做替换。如果贪心解是最优解，那么在分量置换后的解也应当是个最优解，在背包问题中即总效应不变。重复执行这种替换，直到二者完全相同，就证明了贪心算法的解是最优解。</p>
+<blockquote>
+<p>设X=(1:n)是上述策略产生的贪心解。若所有的$x_i$都为1，则显然该解为最优解。</p>
+<p>考虑不全为1的情况，由算法可知，存在一个j为$x_j \neq 1$的最小下标。若X不是一个最优解，则必然存在一个最优解Y使$\sum\limits_{1 \leq i \leq n} p_i y_i &gt; \sum\limits_{1 \leq i \leq n} p_i x_i$。</p>
+<p>设k是$y_k \neq x_k$的最小下标。从$k &lt; j, k = j, k &gt; j$三个方面展开讨论。</p>
+<p>1）若$k &lt; j$，则$x_k = 1$。由于$y_k &lt; x_k$，从而$y_k &lt; x_k$。</p>
+<p>2）若$k = j$，由于$\sum w_j x_i = M$，且对$1 \leq i &lt; j$，有$x_i = y_i = 1$，而对$j &lt; i \leq n$，有$x_i = 0$。若$y_k &gt; x_k$，则$\sum w_j y_i &gt; M$，与题设矛盾。故$y_k &lt; x_k$。</p>
+<p>3）若$k &gt; j$，显然这是不可能的。</p>
+<p>由此我们得到了$y_k &lt; x_k$的结论。</p>
+<p>现在假设我们把$y_k$增加到$x_k$，则需要从$(y_{k+1}, y_{k+2},…,y_n)$中减去同样多的量。使总量仍然为M。这就导致了一个新解Z。且有$\sum\limits_{k&lt;i\leq n} w_i(y_i - z_i) = w_k(z_k -y_k)$。</p>
+<p>$$<br>\sum\limits_{1\leq i \leq n}p_iz_i = \sum\limits_{1\leq i\leq n}p_iy_i+(z_k-y_k)w_kp_k/w_k - \sum\limits_{k&lt;i\leq n}(y_i-z_i)w_ip_i/w_i<br>$$<br>$$<br>\geq \sum\limits_{1\leq i\leq n}p_iy_i+[(z_k-y_k)w_k-\sum\limits_{k&lt;i\leq n}(y_i-z_i)w_i]p_i/w_k<br>$$<br>$$<br>= \sum\limits_{1\leq i\leq n}p_iy_i<br>$$<br>若$\sum p_iz_i&gt;\sum p_iy_i$，则Y不可能是最优解。若取等，$Z=X$，则$X$为最优解；若$Z\neq X$，则需重复以上讨论，或者证明Y不是最优解，或者把Y转换成X，从而证明X也是最优解。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>算法基础</category>
+        <category>贪心算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>贪心算法</tag>
+      </tags>
+  </entry>
+</search>
