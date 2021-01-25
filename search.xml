@@ -9,10 +9,10 @@
 <ol>
 <li>分解原问题为若干子问题；</li>
 <li>解决子问题；</li>
-<li>合并子问题的解，建立原问题的解。</li>
+<li>合并子问题的解，建立原问题的解。<a id="more"></a>
+</li>
 </ol>
 </blockquote>
-<a id="more"></a>
 <h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p>&emsp;&emsp;其中一个典型的应用就是归并排序，上述三个步骤对应描述如下：</p>
 <blockquote>
 <ol>
@@ -40,27 +40,31 @@
     12-->|归并|1234
     34-->|归并|1234</pre>
 
-<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>&emsp;&emsp;我们知道归并排序最坏情况下的运行时间为$\theta(nlgn)$，而插入排序则为$\theta(n^2)$。显然归并排序在输入足够大的最坏情况下要快于插入排序。为什么？</p>
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>&emsp;&emsp;我们知道归并排序最坏情况下的运行时间为<script type="math/tex">\theta(nlgn)</script>，而插入排序则为<script type="math/tex">\theta(n^2)</script>。显然归并排序在输入足够大的最坏情况下要快于插入排序。为什么？</p>
 <p>&emsp;&emsp;分析程序运行步骤我们可以得到以下结论：</p>
 <blockquote>
 <ol>
-<li>分解：将原序列分解为两个子序列，耗费theta(1)时间</li>
-<li>解决：递归地解决两个规模为n/2的子问题，耗费2T(n/2)时间</li>
-<li>合并：MERGE过程最多需要处理n个元素，因此耗费theta(n)时间</li>
+<li>分解：将原序列分解为两个子序列，耗费<script type="math/tex">\theta(1)</script>时间</li>
+<li>解决：递归地解决两个规模为n/2的子问题，耗费<script type="math/tex">2T(n/2)</script>时间</li>
+<li>合并：MERGE过程最多需要处理n个元素，因此耗费<script type="math/tex">\theta(n)</script>时间</li>
 </ol>
 </blockquote>
 <p>&emsp;&emsp;因此我们获得了最坏情况下T(n)的递归式：</p>
-<p>$$<br>T(n)=<br>\begin{cases}<br>\theta(1)&amp;若n=1\<br>2T(n/2)+\theta(n)&amp;若n&gt;1<br>\end{cases}<br>$$</p>
-<p>&emsp;&emsp;求为解该表达式，我们需要引入一个定理。</p>
+<script type="math/tex; mode=display">
+T(n)=
+\begin{cases}
+\theta(1)&\text{若n=1}\\
+2T(n/2)+\theta(n)&\text{若n>1}
+\end{cases}</script><p>&emsp;&emsp;求为解该表达式，我们需要引入一个定理。</p>
 <blockquote>
-<p>&emsp;&emsp;要求解$T(n)=aT(n/b)+f(n)$的渐进界，其中$a\geq1,b&gt;1$为常数，$f(n)$为一个函数。<br>则有以下三种情况：</p>
+<p>&emsp;&emsp;要求解<script type="math/tex">T(n)=aT(n/b)+f(n)</script>的渐进界，其中<script type="math/tex">a\geq1,b>1</script>为常数，<script type="math/tex">f(n)</script>为一个函数。<br>则有以下三种情况：</p>
 <ol>
-<li>若对某个常数$\epsilon&gt;0$有$f(n)=O(n^{log_ba-\epsilon})$，则$T(n)=\theta(n^{log_ba})$。</li>
-<li>若$f(n)=\theta(n^{log_ba})$，则$T(n)=\theta(n^{log_ba}lgn)$。</li>
-<li>若对某个常数$\epsilon&gt;0$有$f(n)=\Omega(n^{log_ba+\epsilon})$，且对某个常数$c&lt;1$和所有足够大的$n$有$af(n/b)\leq cf(n)$，则$T(n)=\theta(f(n))$。</li>
+<li>若对某个常数<script type="math/tex">\epsilon>0</script>有<script type="math/tex">f(n)=O(n^{log_ba-\epsilon})</script>，则<script type="math/tex">T(n)=\theta(n^{log_ba})</script>。</li>
+<li>若<script type="math/tex">f(n)=\theta(n^{log_ba})</script>，则<script type="math/tex">T(n)=\theta(n^{log_ba}lgn)</script>。</li>
+<li>若对某个常数<script type="math/tex">\epsilon>0</script>有<script type="math/tex">f(n)=\Omega(n^{log_ba+\epsilon})</script>，且对某个常数<script type="math/tex">c<1</script>和所有足够大的<script type="math/tex">n</script>有<script type="math/tex">af(n/b)\leq cf(n)</script>，则<script type="math/tex">T(n)=\theta(f(n))</script>。</li>
 </ol>
 </blockquote>
-<p>&emsp;&emsp;对于归并排序算法，我们有$a=2,b=2,f(n)=\theta(n)$，则$n^{log_ba}=n^{log_22}=n$，两者大小相当，应用情况2。于是我们求得$T(n)=\theta(nlgn)$。</p>
+<p>&emsp;&emsp;对于归并排序算法，我们有<script type="math/tex">a=2,b=2,f(n)=\theta(n)</script>，则<script type="math/tex">n^{log_ba}=n^{log_22}=n</script>，两者大小相当，应用情况2。于是我们求得<script type="math/tex">T(n)=\theta(nlgn)</script>。</p>
 ]]></content>
       <categories>
         <category>算法基础</category>
@@ -80,27 +84,35 @@
 <h3 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h3><p>&emsp;&emsp;贪心算法是一种改进了的分级处理方法。首先根据问题选取一种度量方法；然后按照度量标准对n个输入排序，并按序一次输入一个量。如果该输入和当前已经构成的部分最优解加一起不能构成可行解，则不把该输入加入到解中。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 贪心算法的伪代码描述</span><br><span class="line">procedure GREEDY(A, n)                           &#x2F;&#x2F; A(1 : n) 包含n个输入</span><br><span class="line">    solution &lt;- NULL                             &#x2F;&#x2F; 解向量初始化为空</span><br><span class="line">    for i &lt;- 1 to n do</span><br><span class="line">        x &lt;- SELECT(A)                           &#x2F;&#x2F; 按照某种度量方法选择一个输入</span><br><span class="line">        if FEASIBLE(solution, x)                 &#x2F;&#x2F; 判断包含x的集是否为可行解</span><br><span class="line">            then solution &lt;- UNION(solution, x)  &#x2F;&#x2F; 如可行，将x作为可行解的一部分</span><br><span class="line">        endif</span><br><span class="line">    repeat</span><br><span class="line">    return(solution)</span><br><span class="line">end GREEDY</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;要注意的是，许多量度标准取得的解并不是最优解，而是次优解。把目标函数作为量度标准的解也不一定是问题的最优解。实际上，选出最优量度标准不是是一件容易的事。</p>
-<h3 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h3><p>&emsp;&emsp;设想这样一个场景：有一个最大承重$M$的背包，对于每种物品$i$的重量为$W_i$。假定当物品$i$的一部分$x_i$装入背包中可以获得$p_i x_i$的效益（$0 \leq x_i \leq 1, p_i &gt; 0$）。求采用何种策略才能使得效益最大化？</p>
+<h3 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h3><p>&emsp;&emsp;设想这样一个场景：有一个最大承重<script type="math/tex">M</script>的背包，对于每种物品<script type="math/tex">i</script>的重量为<script type="math/tex">W_i</script>。假定当物品<script type="math/tex">i</script>的一部分<script type="math/tex">x_i</script>装入背包中可以获得<script type="math/tex">p_i x_i</script>的效益（<script type="math/tex">0 \leq x_i \leq 1, p_i > 0</script>）。求采用何种策略才能使得效益最大化？</p>
 <p>&emsp;&emsp;以上问题可以用数学语言描述如下：</p>
 <ul>
-<li>目标函数（取极大值）<br>$$<br>\sum\limits_{1 \leq i \leq n} p_i x_i<br>$$</li>
-<li>约束条件<br>$$<br>\sum\limits_{1 \leq i \leq n} w_i x_i \leq M<br>$$<br>$$<br>0 \leq x_i \leq 1 , p_i &gt; 0, 1 \leq i \leq n<br>$$</li>
+<li>目标函数（取极大值）<script type="math/tex; mode=display">
+\sum\limits_{1 \leq i \leq n} p_i x_i</script></li>
+<li>约束条件<script type="math/tex; mode=display">
+\sum\limits_{1 \leq i \leq n} w_i x_i \leq M</script><script type="math/tex; mode=display">
+0 \leq x_i \leq 1 , p_i > 0, 1 \leq i \leq n</script></li>
 </ul>
-<p>&emsp;&emsp;自然我们会希望背包装的东西在占用重量少的情况下又尽可能地能产生更大的效益。因此，我们可以把$p_i / w_i$作为量度标准。经过测试，采用这种量度标准的贪心算法可以获得最优解。将物体按$p_i / w_i$的递减次序排序，则过程 GREEDY-KNAPSACK 就得出一个最优解。如果不考虑排序的时间，则算法的需要的时间为O(n)。</p>
+<p>&emsp;&emsp;自然我们会希望背包装的东西在占用重量少的情况下又尽可能地能产生更大的效益。因此，我们可以把<script type="math/tex">p_i / w_i</script>作为量度标准。经过测试，采用这种量度标准的贪心算法可以获得最优解。将物体按<script type="math/tex">p_i / w_i</script>的递减次序排序，则过程 GREEDY-KNAPSACK 就得出一个最优解。如果不考虑排序的时间，则算法的需要的时间为O(n)。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">procedure GREEDY-KNAPSACK(P, W, M, X, n)</span><br><span class="line">    &#x2F;&#x2F; P(1:n)和W(1:n)分别含有按P(i)&#x2F;W(i) &gt;&#x3D; P(i+1)&#x2F;W(i+1)排序的n件物品的效益值和</span><br><span class="line">    &#x2F;&#x2F; 重量。M是背包的容量大小，X(1:n)是解向量。</span><br><span class="line">    real P(1:n), W(1:n), X(1:n), M, cu;</span><br><span class="line">    integer i, n;</span><br><span class="line">    X &lt;- 0     &#x2F;&#x2F; 将解向量初始化为0</span><br><span class="line">    cu &lt;- M    &#x2F;&#x2F; cu是背包剩余容量</span><br><span class="line">    for i &lt;- 1 to n do</span><br><span class="line">        if W(i) &gt; cu then exit endif</span><br><span class="line">        X(i) &lt;- 1</span><br><span class="line">        cu &lt;- cu - W(i)</span><br><span class="line">    repeat</span><br><span class="line">    if i &lt;&#x3D; n then X(i) &lt;- cu&#x2F;W(i)</span><br><span class="line">    endif</span><br><span class="line">end GREEDY-KNAPSACK</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;由此可见，贪心算法的核心在于量度标准的选取。</p>
 <h3 id="如何证明？"><a href="#如何证明？" class="headerlink" title="如何证明？"></a>如何证明？</h3><p>&emsp;&emsp;以上我们提到的关于背包问题的一种策略的解是最优解。我们该如何证明这一点呢？</p>
-<p>&emsp;&emsp;有一个基本的想法是，把贪心算法的解与任一已知最优解作比较。如果这两个解不同，则按照解向量依次对$x_i$做替换。如果贪心解是最优解，那么在分量置换后的解也应当是个最优解，在背包问题中即总效应不变。重复执行这种替换，直到二者完全相同，就证明了贪心算法的解是最优解。</p>
+<p>&emsp;&emsp;有一个基本的想法是，把贪心算法的解与任一已知最优解作比较。如果这两个解不同，则按照解向量依次对<script type="math/tex">x_i</script>做替换。如果贪心解是最优解，那么在分量置换后的解也应当是个最优解，在背包问题中即总效应不变。重复执行这种替换，直到二者完全相同，就证明了贪心算法的解是最优解。</p>
 <blockquote>
-<p>设X=(1:n)是上述策略产生的贪心解。若所有的$x_i$都为1，则显然该解为最优解。</p>
-<p>考虑不全为1的情况，由算法可知，存在一个j为$x_j \neq 1$的最小下标。若X不是一个最优解，则必然存在一个最优解Y使$\sum\limits_{1 \leq i \leq n} p_i y_i &gt; \sum\limits_{1 \leq i \leq n} p_i x_i$。</p>
-<p>设k是$y_k \neq x_k$的最小下标。从$k &lt; j, k = j, k &gt; j$三个方面展开讨论。</p>
-<p>1）若$k &lt; j$，则$x_k = 1$。由于$y_k &lt; x_k$，从而$y_k &lt; x_k$。</p>
-<p>2）若$k = j$，由于$\sum w_j x_i = M$，且对$1 \leq i &lt; j$，有$x_i = y_i = 1$，而对$j &lt; i \leq n$，有$x_i = 0$。若$y_k &gt; x_k$，则$\sum w_j y_i &gt; M$，与题设矛盾。故$y_k &lt; x_k$。</p>
-<p>3）若$k &gt; j$，显然这是不可能的。</p>
-<p>由此我们得到了$y_k &lt; x_k$的结论。</p>
-<p>现在假设我们把$y_k$增加到$x_k$，则需要从$(y_{k+1}, y_{k+2},…,y_n)$中减去同样多的量。使总量仍然为M。这就导致了一个新解Z。且有$\sum\limits_{k&lt;i\leq n} w_i(y_i - z_i) = w_k(z_k -y_k)$。</p>
-<p>$$<br>\sum\limits_{1\leq i \leq n}p_iz_i = \sum\limits_{1\leq i\leq n}p_iy_i+(z_k-y_k)w_kp_k/w_k - \sum\limits_{k&lt;i\leq n}(y_i-z_i)w_ip_i/w_i<br>$$<br>$$<br>\geq \sum\limits_{1\leq i\leq n}p_iy_i+[(z_k-y_k)w_k-\sum\limits_{k&lt;i\leq n}(y_i-z_i)w_i]p_i/w_k<br>$$<br>$$<br>= \sum\limits_{1\leq i\leq n}p_iy_i<br>$$<br>若$\sum p_iz_i&gt;\sum p_iy_i$，则Y不可能是最优解。若取等，$Z=X$，则$X$为最优解；若$Z\neq X$，则需重复以上讨论，或者证明Y不是最优解，或者把Y转换成X，从而证明X也是最优解。</p>
+<p>设X=(1:n)是上述策略产生的贪心解。若所有的<script type="math/tex">x_i</script>都为1，则显然该解为最优解。</p>
+<p>考虑不全为1的情况，由算法可知，存在一个j为<script type="math/tex">x_j \neq 1</script>的最小下标。若X不是一个最优解，则必然存在一个最优解Y使<script type="math/tex">\sum\limits_{1\leq i\leq n}p_iy_i>\sum\limits_{1\leq i\leq n}p_ix_i</script>。</p>
+<p>设k是<script type="math/tex">y_k \neq x_k</script>的最小下标。从<script type="math/tex">k < j, k = j, k > j</script>三个方面展开讨论。</p>
+<p>1）若<script type="math/tex">k < j</script>，则<script type="math/tex">x_k = 1</script>。由于<script type="math/tex">y_k < x_k</script>，从而<script type="math/tex">y_k < x_k</script>。</p>
+<p>2）若<script type="math/tex">k = j</script>，由于<script type="math/tex">\sum w_j x_i = M</script>，且对<script type="math/tex">1 \leq i < j</script>，有<script type="math/tex">x_i = y_i = 1</script>，而对<script type="math/tex">j < i \leq n</script>，有<script type="math/tex">x_i = 0</script>。若<script type="math/tex">y_k > x_k</script>，则<script type="math/tex">\sum w_j y_i > M</script>，与题设矛盾。故<script type="math/tex">y_k < x_k</script>。</p>
+<p>3）若<script type="math/tex">k > j</script>，显然这是不可能的。</p>
+<p>由此我们得到了<script type="math/tex">y_k < x_k</script>的结论。</p>
+<p>现在假设我们把<script type="math/tex">y_k</script>增加到<script type="math/tex">x_k</script>，则需要从<script type="math/tex">(y_{k+1}, y_{k+2},...,y_n)</script>中减去同样多的量。使总量仍然为M。这就导致了一个新解Z。且有<script type="math/tex">\sum\limits_{k<i\leq n} w_i(y_i - z_i) = w_k(z_k -y_k)</script>。</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\sum\limits_{1\leq i \leq n}p_iz_i &= \sum\limits_{1\leq i\leq n}p_iy_i+(z_k-y_k)w_kp_k/w_k - \sum\limits_{k<i\leq n}(y_i-z_i)w_ip_i/w_i\\
+&\geq \sum\limits_{1\leq i\leq n}p_iy_i+[(z_k-y_k)w_k-\sum\limits_{k<i\leq n}(y_i-z_i)w_i]p_i/w_k\\
+&= \sum\limits_{1\leq i\leq n}p_iy_i
+\end{align}</script><p>若<script type="math/tex">\sum p_iz_i>\sum p_iy_i</script>，则Y不可能是最优解。若取等，<script type="math/tex">Z=X</script>，则<script type="math/tex">X</script>为最优解；若<script type="math/tex">Z\neq X</script>，则需重复以上讨论，或者证明Y不是最优解，或者把Y转换成X，从而证明X也是最优解。</p>
 </blockquote>
 ]]></content>
       <categories>
