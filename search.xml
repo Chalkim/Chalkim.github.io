@@ -9,10 +9,10 @@
 <ol>
 <li>分解原问题为若干子问题；</li>
 <li>解决子问题；</li>
-<li>合并子问题的解，建立原问题的解。<a id="more"></a>
-</li>
+<li>合并子问题的解，建立原问题的解。</li>
 </ol>
 </blockquote>
+<a id="more"></a>
 <h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p>&emsp;&emsp;其中一个典型的应用就是归并排序，上述三个步骤对应描述如下：</p>
 <blockquote>
 <ol>
