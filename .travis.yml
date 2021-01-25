@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js: stable
-cache: npm
+cache: yarn
 branches:
   only:
     - hexo
