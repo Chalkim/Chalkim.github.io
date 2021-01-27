@@ -130,7 +130,7 @@ T(n)=
 <script type="math/tex; mode=display">n=i_1+i_2+\cdots+i_n</script><p>&emsp;&emsp;从而获取最大收益<script type="math/tex">r_n</script></p>
 <script type="math/tex; mode=display">r_n=p_{i_1}+p_{i_2}+\cdots+p_{i_n}</script><p>&emsp;&emsp;考虑<script type="math/tex">n=1</script>的情况，只能选择不切割的方案，此时获取收益为1。考虑<script type="math/tex">n=2</script>的情况，可以选择不切割或切割为两个长度为1的钢条，取收益较大者即可。而对于更普遍的情况，实际上我们总能用如下表达式表示最大收益。</p>
 <script type="math/tex; mode=display">r_n=max(p_n,r_1+r_{n-1},r_2+r_{n-2},\cdots,r_{n-1}+r_1)\tag{1}</script><blockquote>
-<p>这里应该可以省去一半的计算量</p>
+<p><del>这里应该可以省去一半的计算量</del></p>
 </blockquote>
 <p>&emsp;&emsp;可以看出我们为了获取更普遍的情况，实际上是用子问题的最优解组合出最优解。因此我们说钢条切割问题具有<strong>最优子结构性质</strong>。</p>
 <div class="note warning">
