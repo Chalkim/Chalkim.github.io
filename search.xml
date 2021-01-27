@@ -28,7 +28,7 @@
 <p>&emsp;&emsp;现在我们已经具备了完成该算法的所有条件了，让我们完成它。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MERGE-SORT(A, p, r)</span><br><span class="line">&#x2F;&#x2F; A[p, r]是一个数组，即待排序序列</span><br><span class="line">    if p &lt; r</span><br><span class="line">        q &#x3D; (p + r) &#x2F; 2                  &#x2F;&#x2F; 向下取整</span><br><span class="line">        MERGE-SORT(A, p, q)</span><br><span class="line">        MERGE-SORT(A, q+1, r)            &#x2F;&#x2F; 分割原序列为两个序列</span><br><span class="line">        MERGE(A, p, q, r)                &#x2F;&#x2F; 合并两个已排序的子序列</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;值得注意的是，当A只含1项时该过程的行为。A.length = 1时，有p = r，不满足判断条件，即该过程什么都不做。两个长度为1的子序列MERGE成为一个长为2的新序列…</p>
-<p>&emsp;&emsp;以此类推，自底向上，由小序列不断合成为新序列，最终完成原序列的排序工作。自此我们终于完成了归并排序的算法设计。</p>
+<p>&emsp;&emsp;以此类推，自底向上，由小序列不断合成为新序列，最终完成原序列的排序工作。至此我们终于完成了归并排序的算法设计。</p>
 <pre class="mermaid">graph BT
     12[2 5]
     1[5]-->|归并|12
@@ -55,7 +55,7 @@ T(n)=
 \begin{cases}
 \theta(1)&\text{若n=1}\\
 2T(n/2)+\theta(n)&\text{若n>1}
-\end{cases}</script><p>&emsp;&emsp;求为解该表达式，我们需要引入一个定理。</p>
+\end{cases}</script><p>&emsp;&emsp;为求解该表达式，我们需要引入一个定理。</p>
 <blockquote>
 <p>&emsp;&emsp;要求解<script type="math/tex">T(n)=aT(n/b)+f(n)</script>的渐进界，其中<script type="math/tex">a\geq1,b>1</script>为常数，<script type="math/tex">f(n)</script>为一个函数。<br>则有以下三种情况：</p>
 <ol>
@@ -73,6 +73,115 @@ T(n)=
       <tags>
         <tag>算法</tag>
         <tag>分治法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算法基础-动态规划</title>
+    <url>/2021/01/26/suan-fa-ji-chu-dong-tai-gui-hua/</url>
+    <content><![CDATA[<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;同<a href="/2021/01/22/suan-fa-ji-chu-tan-xin-suan-fa/">贪心算法</a>一样，动态规划所要解决的问题通常也是最优解问题。在策略上，动态规划与<a href="/2021/01/25/suan-fa-ji-chu-fen-zhi-fa/">分治法</a>相似，都是把复杂问题分解为数个子问题。不同的地方在于，分治法分解出的子问题均是独立的，即均需要进行单独的演算。而动态规划解决的是公共子问题，并将其保存以供重复利用，因此避免了大量不必要的计算工作。</p>
+<a id="more"></a>
+<p>&emsp;&emsp;一个动态规划算法的步骤大致有如下四步：</p>
+<blockquote>
+<ol>
+<li>刻画一个最优解的结构特征。</li>
+<li>递归地定义最优解的值。</li>
+<li>计算最优解的值，通常采用自底向上的方法。</li>
+<li>利用计算出的信息构造一个最优解。</li>
+</ol>
+</blockquote>
+<h3 id="钢条切割问题"><a href="#钢条切割问题" class="headerlink" title="钢条切割问题"></a>钢条切割问题</h3><p>&emsp;&emsp;对于给定的一段长为n英寸的钢条和一个价格表<script type="math/tex">p_i</script>（样例如下）。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>长度<script type="math/tex">i</script></th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>价格<script type="math/tex">P_i</script></td>
+<td>1</td>
+<td>5</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+<td>17</td>
+<td>17</td>
+<td>20</td>
+<td>24</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>&emsp;&emsp;假设切割所需的成本为0，如何切割钢条可以使收益<script type="math/tex">r_n</script>最大化？</p>
+<p>&emsp;&emsp;应用动态规划的思想，我们将原问题分解为一系列子问题。</p>
+<h4 id="最优解的结构特征"><a href="#最优解的结构特征" class="headerlink" title="最优解的结构特征"></a>最优解的结构特征</h4><p>&emsp;&emsp;对于一个钢条，我们总可以选择一个切割方案将钢条切成<script type="math/tex">k</script>段（<script type="math/tex">k=1</script>时表示不切割）如此一个最优解就应当是这种形式：</p>
+<script type="math/tex; mode=display">n=i_1+i_2+\cdots+i_n</script><p>&emsp;&emsp;从而获取最大收益<script type="math/tex">r_n</script></p>
+<script type="math/tex; mode=display">r_n=p_{i_1}+p_{i_2}+\cdots+p_{i_n}</script><p>&emsp;&emsp;考虑<script type="math/tex">n=1</script>的情况，只能选择不切割的方案，此时获取收益为1。考虑<script type="math/tex">n=2</script>的情况，可以选择不切割或切割为两个长度为1的钢条，取收益较大者即可。而对于更普遍的情况，实际上我们总能用如下表达式表示最大收益。</p>
+<script type="math/tex; mode=display">r_n=max(p_n,r_1+r_{n-1},r_2+r_{n-2},\cdots,r_{n-1}+r_1)\tag{1}</script><blockquote>
+<p>这里应该可以省去一半的计算量</p>
+</blockquote>
+<p>&emsp;&emsp;可以看出我们为了获取更普遍的情况，实际上是用子问题的最优解组合出最优解。因此我们说钢条切割问题具有<strong>最优子结构性质</strong>。</p>
+<div class="note warning">
+            <h5 id="注意与分治法的区别！"><a href="#注意与分治法的区别！" class="headerlink" title="注意与分治法的区别！"></a>注意与分治法的区别！</h5><p>&emsp;&emsp;分治法不要求问题具有最优子结构性质，例如归并排序时我们只需要能够利用两子序列归并即可。但对于每一个子问题均是独立存在的，是需要单独计算的。而对于不具有最优子结构性质的问题，我们几乎就能断言其不适用动态规划了。</p>
+          </div>
+<h4 id="递归地定义最优解的值"><a href="#递归地定义最优解的值" class="headerlink" title="递归地定义最优解的值"></a>递归地定义最优解的值</h4><p>&emsp;&emsp;简化<script type="math/tex">(1)</script>可以得到<script type="math/tex">r_n=\max\limits_{1\leq i\leq n}(p_i+r_{n-i})</script>。因此我们可以得到如下伪代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CUT-ROD(p, n)</span><br><span class="line">&#x2F;&#x2F; p为数组，即价格表；n为待处理钢条长度</span><br><span class="line">    if(n &#x3D;&#x3D; 0)                                 &#x2F;&#x2F; 长度为0没有收益</span><br><span class="line">        return 0</span><br><span class="line">    q &#x3D; -inf                                   &#x2F;&#x2F; 初始化</span><br><span class="line">    for i &#x3D; 1 to n</span><br><span class="line">        q &#x3D; max(q, p[i] + CUT-ROD(p,n - i))</span><br><span class="line">    return q</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;至此，这个算法确实可以计算出最优解。但由于其递归实现，其时间复杂度相当巨大。分析n=3的情况，可以得到如下递归树。</p>
+<pre class="mermaid">graph TB
+    n11((3))
+    n21((2))
+    n22((1))
+    n23((0))
+    n31((1))
+    n32((0))
+    n33((0))
+    n41((0))
+    n11---n21
+    n11---n22
+    n11---n23
+    n21---n31
+    n21---n32
+    n22---n33
+    n31---n41</pre>
+
+<p>&emsp;&emsp;由递归树可知，对n个输入，对应结点数目为<script type="math/tex">2^n</script>个。其中有很多部分是重复的子问题，如果我们能够将其保存并加以利用，那么就可以降低算法的复杂度了。</p>
+<blockquote>
+<script type="math/tex; mode=display">
+T(n) =
+\begin{cases}
+1&\text{若n=0}\\
+\sum\limits_{j=0}^{n-1}T(j)&{其他}
+\end{cases}</script><p>可以证明<script type="math/tex">T(n)=2^n</script>，为一指数函数。实际上到这一步，对于分治法来说已经足够了，但对于动态规划还远远不够。</p>
+</blockquote>
+<h4 id="计算最优解的值"><a href="#计算最优解的值" class="headerlink" title="计算最优解的值"></a>计算最优解的值</h4><p>&emsp;&emsp;由于递归版本的算法运行时间太长，实用性很低，因此有必要进行改进。改进的方法一般有两种，一是<strong>带备忘的自顶向下法</strong>，二是<strong>自底向上法</strong>。</p>
+<h5 id="带备忘的自顶向下法"><a href="#带备忘的自顶向下法" class="headerlink" title="带备忘的自顶向下法"></a>带备忘的自顶向下法</h5><p>&emsp;&emsp;如字面意思，该版本的改进在于在递归过程中加入了对子问题最优解值的保存。在需要子问题的解的时候，程序首先检查是否保存了该解，从而省去了计算的时间。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 带备忘的自顶向下法的伪代码描述</span><br><span class="line">MEMOIZED-CUT-ROD(p, n)</span><br><span class="line">&#x2F;&#x2F; p为价格表，n为待处理钢条长度</span><br><span class="line">    let r[0..n] be a new array</span><br><span class="line">    for i &#x3D; 0 to n</span><br><span class="line">        r[i] &#x3D; -inf                                              &#x2F;&#x2F; 初始化备忘</span><br><span class="line">    return MEMOIZED-CUT-ROD-AUX(p, n, r)</span><br><span class="line"></span><br><span class="line">MEMOIZED-CUT-ROD-AUX(p, n, r)</span><br><span class="line">    if r[n] &gt;&#x3D; 0</span><br><span class="line">        return r[n]                                              &#x2F;&#x2F; 存在备忘直接取出</span><br><span class="line">    if n &#x3D;&#x3D; 0</span><br><span class="line">        q &#x3D; 0</span><br><span class="line">    else q &#x3D; -inf</span><br><span class="line">        for i &#x3D; 0 to n</span><br><span class="line">            q &#x3D; max(q, p[i] + MEMOIZED-CUT-ROD-AUX(p, n-i ,r))</span><br><span class="line">    r[n] &#x3D; q                                                     &#x2F;&#x2F; 保存备忘</span><br><span class="line">    return q</span><br></pre></td></tr></table></figure>
+<h5 id="自底向上法"><a href="#自底向上法" class="headerlink" title="自底向上法"></a>自底向上法</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BOTTOM-UP-CUT-ROD(p, n)</span><br><span class="line">    let r[0..n] be a new array</span><br><span class="line">    r[0] &#x3D; 0</span><br><span class="line">    for j &#x3D; 1 to n</span><br><span class="line">        q &#x3D; -inf</span><br><span class="line">        for i &#x3D; 1 to j</span><br><span class="line">            q &#x3D; max(q, p[i] + r[j-i])</span><br><span class="line">        r[j]&#x3D;q</span><br><span class="line">    return r[n]</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;与自顶向下法比较，可以发现自底向上法最重要的地方三添加了第4行，以及将递归调用改为直接从r中取出。由于用取值代替了递归调用，算法自然不能像递归算法一样一层层继续下去，因此有必要添加自底向上的迭代方法。</p>
+<p>&emsp;&emsp;容易得到该改进版本运行时间为<script type="math/tex">\theta(n^2)</script>，实际上MEMOIZED-CUT-ROD运行时间也是上式。</p>
+<h4 id="利用计算出的信息构造一个最优解"><a href="#利用计算出的信息构造一个最优解" class="headerlink" title="利用计算出的信息构造一个最优解"></a>利用计算出的信息构造一个最优解</h4><p>&emsp;&emsp;到这一步我们已经计算得到了最大收益的值，但实际上对于钢条的切割方案并未提供最优解。这一步就是要保存每一段切割长度<script type="math/tex">s_j</script>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">EXTENDED-BOTTOM-UP-CUT-ROD(p, n)</span><br><span class="line">    let r[0..n] and s[0..n] be new arrays                &#x2F;&#x2F; r是备忘，s是最优解</span><br><span class="line">    r[0] &#x3D; 0</span><br><span class="line">    for j &#x3D; 1 to n</span><br><span class="line">        q &#x3D; -inf</span><br><span class="line">        for i &#x3D; 1 to j</span><br><span class="line">            if q &lt; p[i] + r[j-i]</span><br><span class="line">                q &#x3D; p[i] + r[j-i]</span><br><span class="line">                s[j] &#x3D; i</span><br><span class="line">        r[j] &#x3D; q</span><br><span class="line">    return r and s</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&emsp;&emsp;要应用动态规划解决问题，问题需要具备以下两个性质：<strong>最优子结构</strong>和<strong>子问题重叠</strong>。</p>
+]]></content>
+      <categories>
+        <category>算法基础</category>
+        <category>动态规划</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
