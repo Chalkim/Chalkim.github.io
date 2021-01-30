@@ -1,6 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>最优二叉搜索树算法</title>
+    <url>/2021/01/29/zui-you-er-cha-sou-suo-shu-suan-fa/</url>
+    <content><![CDATA[<p>&emsp;&emsp;最优二叉搜索树算法是一种<a href="/2021/01/26/suan-fa-ji-chu-dong-tai-gui-hua/">动态规划算法</a>。该算法解决的问题是：在给定结点出现频率的前提下，如何组织一颗二叉搜索树，使所有搜索操作访问的结点数最少？这也是一个最优解问题。</p>
+<a id="more"></a>
+<h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p>&emsp;&emsp;给定一个n个不同关键字的已排序的序列K，用该序列构建一颗二叉搜索树。对于每个关键字<script type="math/tex">k_i</script>，都有一个概率<script type="math/tex">p_i</script>表示其搜索频率。有些要搜索的值可能不在K中，应次还有n+1个伪关键字<script type="math/tex">d_0,d_1,\cdots,d_n</script>表示不在K中的值。$d_0$表示所有小于<script type="math/tex">k_1</script>的值，<script type="math/tex">d_n</script>表示所有大于<script type="math/tex">k_n</script>的值。对于每一个<script type="math/tex">d_i</script>,也有一个概率<script type="math/tex">q_i</script>表示其搜索频率。每次查找要么成功（找到某个关键字），要么失败（找到某个伪关键字）。</p>
+<script type="math/tex; mode=display">
+\sum\limits_{i=1}^nP_i+\sum\limits_{i=0}^nq_i=1</script><h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>&emsp;&emsp;一颗n=5的最优二叉树（期望搜索代价为2.75）：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>i</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$p_i$</td>
+<td></td>
+<td>0.15</td>
+<td>0.10</td>
+<td>0.05</td>
+<td>0.10</td>
+<td>0.20</td>
+</tr>
+<tr>
+<td>$q_i$</td>
+<td>0.05</td>
+<td>0.10</td>
+<td>0.05</td>
+<td>0.05</td>
+<td>0.05</td>
+<td>0.10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre class="mermaid">graph TB
+  k2((k2))-->k1((k1))
+  k2-->k5((k5))
+  k1-->d0((d0))
+  k1-->d1((d1))
+  k5-->k4((k4))
+  k5-->d5((d5))
+  k4-->k3((k3))
+  k3-->d2((d2))
+  k3-->d3((d3))
+  k4-->d4((d4))</pre>
+
+<script type="math/tex; mode=display">
+E[T中搜索代价]=1+\sum\limits_{i=1}^ndepth_T(k_i)\cdot p_i+\sum\limits_{i=1}^ndepth_T(d_i)\cdot q_i</script><h3 id="刻画最优子结构"><a href="#刻画最优子结构" class="headerlink" title="刻画最优子结构"></a>刻画最优子结构</h3><h4 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h4><p>&emsp;&emsp;如果一颗最优二叉搜索树T有一颗包含关键字<script type="math/tex">k_i,\cdots ,k_j</script>的子树T‘，则其必然是包含关键字<script type="math/tex">k_i,\cdots ,k_j</script>和伪关键字<script type="math/tex">d_{i-1},\cdots ,d_{j}</script>的最优解。如果存在子树T’’，其期望搜索代价比T’低。则用T’’替换T’，则与T最优的假设矛盾。</p>
+<p>&emsp;&emsp;因此我们可以利用最优子结构的性质，检查所有可能的根结点<script type="math/tex">k_i</script>，对其求解包含<script type="math/tex">k_i,\cdots ,k_{r-1}</script>及包含<script type="math/tex">k_{r+1},\cdots ,k_j</script>的最优二叉搜索树，即可找到原问题最优解。</p>
+<h4 id="递归算法"><a href="#递归算法" class="headerlink" title="递归算法"></a>递归算法</h4><p>&emsp;&emsp;子问题域：求解包含关键字<script type="math/tex">k_i,\cdots,k_j</script>的最优二叉搜索树。<script type="math/tex">e[i,j]</script>为包含关键字<script type="math/tex">k_i,\cdots ,k_j</script>的最优二叉搜索树的期望代价。最终求出<script type="math/tex">e[1,n]</script>。</p>
+<p>&emsp;&emsp;子树概率之和为</p>
+<script type="math/tex; mode=display">
+w[i,j]=\sum\limits_{l=i}^jp_l+\sum\limits_{l=i-1}^jq_l</script><p>&emsp;&emsp;<script type="math/tex">j=i-1</script>时，子树只包含伪关键字<script type="math/tex">d_{i-1}</script>。</p>
+<p>&emsp;&emsp;<script type="math/tex">i\leq j</script>时，子树<script type="math/tex">e[i,j]=p_r+(e[i,r-1]+w(i,r-1))+(e[r+1,j]+w(r+1,j))</script>，因为<script type="math/tex">w(i,j)=w(i,r-1)+p_r+w(r+1,j)</script>，可以得到如下递归公式：</p>
+<script type="math/tex; mode=display">
+e[i,j]=
+\begin{cases}
+q_{i-1}&\text{若j=i-1}\\
+\min\limits_{i\leq r\leq j}\{e[i,r-1]+e[r+1,j]+w(i,j)\}&\text{若n>1}
+\end{cases}</script><h4 id="改为迭代算法"><a href="#改为迭代算法" class="headerlink" title="改为迭代算法"></a>改为迭代算法</h4><p>&emsp;&emsp;上述递归实现相对低效，用迭代算法进行改进。用表<script type="math/tex">e[1..n+1, 0..n]</script>保存<script type="math/tex">e[i,j]</script>。另外使用<script type="math/tex">root[i,j]</script>记录包含关键字<script type="math/tex">k_i,\cdots ,k_j</script>的子树的根。为了避免每次计算<script type="math/tex">e[i,j]</script>时都重新计算<script type="math/tex">w(i,j)</script>，使用表<script type="math/tex">w[1..n, 0..n]</script>保存。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">OPTIMAL-SET(p,q,n)</span><br><span class="line">&#x2F;&#x2F; p为关键字k_i的概率表，q为伪关键字d_i的概率表，n为问题规模</span><br><span class="line">    let e[1..n+1,0..n], w[1..n+1,0..n], and root[1..n, 1..n] be new tables</span><br><span class="line">&#x2F;&#x2F; 第一维上标为n+1是为了考虑只包含d[n+1]的情况</span><br><span class="line">&#x2F;&#x2F; 第二维下标为0是为了考虑只包含d[0]的情况</span><br><span class="line">    for i &#x3D; 1 to n+1</span><br><span class="line">        e[i,i-1] &#x3D; q[i-1]</span><br><span class="line">        w[i,i-1] &#x3D; q[i-1]                          &#x2F;&#x2F; 初始化</span><br><span class="line">    for l &#x3D; 1 to n                                 &#x2F;&#x2F; 子树宽度</span><br><span class="line">        for i &#x3D; 1 to n-l+1</span><br><span class="line">            j &#x3D; i+l-1                              &#x2F;&#x2F; 自底向上遍历所有可能的子树</span><br><span class="line">            e[i,j] &#x3D; inf                           &#x2F;&#x2F; 初始化</span><br><span class="line">            w[i,j] &#x3D; w[i, j-1] + p[j] + q[j]</span><br><span class="line">            for r &#x3D; i to j                         &#x2F;&#x2F; 选择根结点</span><br><span class="line">                t &#x3D; e[i,r-1] + e[r+1,j] + w[i,j]</span><br><span class="line">                if t &lt; e[i,j]                      &#x2F;&#x2F; 取最小值</span><br><span class="line">                    e[i,j]&#x3D;t</span><br><span class="line">                    root[i,j]&#x3D;r</span><br><span class="line">    return e and root</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;运行时间为<script type="math/tex">\theta (n^3)</script>。</p>
+]]></content>
+      <categories>
+        <category>算法基础</category>
+        <category>动态规划</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>二叉搜索树</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>算法基础-分治法</title>
     <url>/2021/01/25/suan-fa-ji-chu-fen-zhi-fa/</url>
     <content><![CDATA[<p>&emsp;&emsp;分治法是一种常见的算法设计思想。许多算法在结构上是递归的，这些算法采用的往往就是分治法。分治法的思想是将复杂问题分解为几个规模较小的但形式类似于原问题的子问题。递归地求解出子问题，再合并子问题的解，从而构建出原问题的解。</p>
@@ -71,7 +152,6 @@ T(n)=
         <category>分治法</category>
       </categories>
       <tags>
-        <tag>算法</tag>
         <tag>分治法</tag>
       </tags>
   </entry>
@@ -180,7 +260,6 @@ T(n) =
         <category>动态规划</category>
       </categories>
       <tags>
-        <tag>算法</tag>
         <tag>动态规划</tag>
       </tags>
   </entry>
@@ -229,7 +308,6 @@ T(n) =
         <category>贪心算法</category>
       </categories>
       <tags>
-        <tag>算法</tag>
         <tag>贪心算法</tag>
       </tags>
   </entry>
