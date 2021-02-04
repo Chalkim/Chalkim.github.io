@@ -4,99 +4,120 @@
   <url>
     <loc>http://chalkim.ga/2021/01/31/shu-ju-ku-ji-chu-guan-xi-dai-shu-yu-sql/</loc>
     
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://chalkim.ga/2021/02/02/shu-ju-ku-ji-chu-fan-shi/</loc>
+    
+    <lastmod>2021-02-04</lastmod>
     
   </url>
   
   <url>
     <loc>http://chalkim.ga/2021/01/29/zui-you-er-cha-sou-suo-shu-suan-fa/</loc>
     
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     
   </url>
   
   <url>
     <loc>http://chalkim.ga/2021/01/25/suan-fa-ji-chu-fen-zhi-fa/</loc>
     
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     
   </url>
   
   <url>
     <loc>http://chalkim.ga/2021/01/26/suan-fa-ji-chu-dong-tai-gui-hua/</loc>
     
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     
   </url>
   
   <url>
     <loc>http://chalkim.ga/2021/01/22/suan-fa-ji-chu-tan-xin-suan-fa/</loc>
     
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     
   </url>
   
   <url>
     <loc>http://chalkim.ga/categories/index.html</loc>
     
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     
   </url>
   
   <url>
     <loc>http://chalkim.ga/tags/index.html</loc>
     
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     
   </url>
   
 
   <url>
     <loc>http://chalkim.ga/</loc>
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
+    <loc>http://chalkim.ga/tags/%E8%8C%83%E5%BC%8F/</loc>
+    <lastmod>2021-02-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://chalkim.ga/tags/%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0/</loc>
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://chalkim.ga/tags/SQL/</loc>
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://chalkim.ga/tags/%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96/</loc>
+    <lastmod>2021-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://chalkim.ga/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</loc>
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://chalkim.ga/tags/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/</loc>
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://chalkim.ga/tags/%E5%88%86%E6%B2%BB%E6%B3%95/</loc>
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://chalkim.ga/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -105,35 +126,42 @@
   
   <url>
     <loc>http://chalkim.ga/categories/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://chalkim.ga/categories/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://chalkim.ga/categories/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80/%E8%8C%83%E5%BC%8F/</loc>
+    <lastmod>2021-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://chalkim.ga/categories/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</loc>
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://chalkim.ga/categories/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/%E5%88%86%E6%B2%BB%E6%B3%95/</loc>
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://chalkim.ga/categories/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
