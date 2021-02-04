@@ -45,10 +45,44 @@
 ]]></content>
       <categories>
         <category>数据库基础</category>
+        <category>SQL</category>
       </categories>
       <tags>
         <tag>关系代数</tag>
         <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库基础-多值依赖与4NF</title>
+    <url>/2021/02/04/shu-ju-ku-ji-chu-duo-zhi-yi-lai-yu-4nf/</url>
+    <content><![CDATA[<p>&emsp;&emsp;BCNF并非完美的范式，满足BCNF的关系模式依然有改进的空间。于此相关的就是多值依赖与更进一步的范式：4NF。</p>
+<a id="more"></a>
+<p>&emsp;&emsp;假设学校里开设的每门课程都由多名教师讲授，使用相同的一套参考书。每个教师可以教授多门课程，每本参考书也可以供多门课程使用。有如下关系：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">| 课程     | 教师       | 参考书                           |</span><br><span class="line">|----------|------------|----------------------------------|</span><br><span class="line">| 物理     | 李勇、王军 | 普通物理学、光学原理、物理习题集 |</span><br><span class="line">| 数学     | 李勇、张平 | 数学分析、微分方程、高等代数     |</span><br><span class="line">| 计算数学 | 张平、周峰 | 数学分析...                      |</span><br><span class="line">| ...      | ...        | ...                              |</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;将其规范化后有：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">| 课程 | 教师 | 参考书     |</span><br><span class="line">|------|------|------------|</span><br><span class="line">| 物理 | 李勇 | 普通物理学 |</span><br><span class="line">| 物理 | 李勇 | 光学原理   |</span><br><span class="line">| 物理 | 李勇 | 物理习题集 |</span><br><span class="line">| 物理 | 王军 | 普通物理学 |</span><br><span class="line">| 物理 | 王军 | 光学原理   |</span><br><span class="line">| 物理 | 王军 | 物理习题集 |</span><br><span class="line">| 数学 | 李勇 | 数学分析   |</span><br><span class="line">| 数学 | 李勇 | 微分方程   |</span><br><span class="line">| 数学 | 李勇 | 高等代数   |</span><br><span class="line">| 数学 | 张平 | 数学分析   |</span><br><span class="line">| 数学 | 张平 | 微分方程   |</span><br><span class="line">| 数学 | 张平 | 高等代数   |</span><br><span class="line">| ...  | ...  | ...        |</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;由于该关系模型的码是（课程，教师，参考书），是全码（All-Key），因此满足BCNF的要求。尽管如此依然存在着种种缺陷。</p>
+<p>&emsp;&emsp;如果我们要对某门课程增加（更改、删除）一本参考书，或者是增加一个教师。则必须对多个元组进行操作，这样的操作很麻烦，数据的冗余也很明显。而BCNF已经是考虑函数依赖规范化程度的极限了，实际上这种情况与另外一种数据依赖方式多值依赖相关。</p>
+<h3 id="多值依赖"><a href="#多值依赖" class="headerlink" title="多值依赖"></a>多值依赖</h3><blockquote>
+<p>&emsp;&emsp;设R(U)是属性集U上的一个关系模式。X、Y、Z是U的子集，并且Z=U-X-Y。关系模式R(U)中多值依赖X-&gt;-&gt;Y成立，当且仅当对R(U)的任一关系r，给定的一对(x,z)的值，有一组Y的值，这组值仅仅决定于x值而与z值无关。</p>
+</blockquote>
+<p>&emsp;&emsp;抽象的定义就介绍到这里。以我们上面的例子为例，对于一个（物理，普通物理学）有一组教师（李勇、王军），而教师只由课程物理决定，与普通物理学无关。因此课程-&gt;-&gt;教师，即教师多值依赖于课程。</p>
+<p>&emsp;&emsp;相似的有对于一个（物理，李勇），都有一组参考书（普通物理学、光学原理、物理习题集）与之对应。而参考书与教师是不是李勇无关，只与课程物理有关系。因此课程-&gt;-&gt;参考书，即参考书多值依赖于课程。</p>
+<div class="note warning">
+            <h5 id="注意与函数依赖的区别！"><a href="#注意与函数依赖的区别！" class="headerlink" title="注意与函数依赖的区别！"></a>注意与函数依赖的区别！</h5><ol><li><p>函数依赖是特殊的多值依赖。</p></li><li><p>函数依赖X-&gt;Y只与X和Y相关，而多值依赖则还与U中的其他属性Z相关。因此当属性集变大时，函数依赖依然存在，但多值依赖则可能消失。</p></li><li><p>若函数依赖X-&gt;Y成立，则对于Y的任意一个子集Y‘，都有X-&gt;Y’成立。而对于多值依赖则没有这样类似的结论。</p></li></ol>
+          </div>
+<h3 id="4NF"><a href="#4NF" class="headerlink" title="4NF"></a>4NF</h3><p>&emsp;&emsp;关系模式R<U,F>满足1NF，若对于R的每一个<strong>非平凡多值依赖</strong>X-&gt;-&gt;Y，X都含有码，则称R<U,F>满足4NF。</U,F></U,F></p>
+<blockquote>
+<p>非平凡多值依赖就是Z不为空集的情况。实际上由于4NF定义X含有码，因此有X-&gt;Y。4NF所允许的非平凡多值依赖就是函数依赖。</p>
+</blockquote>
+<p><img src="/2021/02/04/shu-ju-ku-ji-chu-duo-zhi-yi-lai-yu-4nf/4NF_1.svg" alt="4NF_1"></p>
+]]></content>
+      <categories>
+        <category>数据库基础</category>
+        <category>范式</category>
+      </categories>
+      <tags>
+        <tag>范式</tag>
       </tags>
   </entry>
   <entry>
@@ -122,8 +156,8 @@
         <category>范式</category>
       </categories>
       <tags>
-        <tag>函数依赖</tag>
         <tag>范式</tag>
+        <tag>函数依赖</tag>
       </tags>
   </entry>
   <entry>
