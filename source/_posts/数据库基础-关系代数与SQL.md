@@ -4,6 +4,7 @@ date: 2021-01-31 18:22:33
 mathjax: true
 categories:
 - 数据库基础
+- SQL
 tags:
 - 关系代数
 - SQL
