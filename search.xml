@@ -58,7 +58,7 @@
 <a id="more"></a>
 <h3 id="1NF"><a href="#1NF" class="headerlink" title="1NF"></a>1NF</h3><p>&emsp;&emsp;1NF要求每一个分量必须是不可分的数据项。简而言之就是不能表中有表：</p>
 <blockquote>
-<p><img src="./数据库基础-范式/1NF_1.png" alt="1NF_1"></p>
+<p><img src="/2021/02/02/shu-ju-ku-ji-chu-fan-shi/1NF_1.png" alt="1NF_1"></p>
 </blockquote>
 <p>&emsp;&emsp;这是最基本的规范化，满足1NF的数据库模式依然可能存在插入异常、删除异常、冗余过大的问题。</p>
 <h3 id="2NF"><a href="#2NF" class="headerlink" title="2NF"></a>2NF</h3><p>&emsp;&emsp;在满足1NF的基础上，每一个非主属性（Non-prime attribute）「即不出现在任何码中的属性」<strong>完全函数依赖</strong>于码（Key），则满足2NF。</p>
@@ -68,11 +68,11 @@
 <blockquote>
 <p>&emsp;&emsp;学生-地址-选课关系(学号，系所，地址，课程号，成绩)</p>
 <p>&emsp;&emsp;在这个关系中（学号，课程号）是码。学号唯一确定院系与住址，院系唯一确定住址，学号与课程号唯一确定成绩。在这个关系中存在非主属性部分函数依赖于码，如住址部分依赖于（学号，课程号）。</p>
-<p><img src="./数据库基础-范式/2NF_1.svg" alt="2NF_1"></p>
+<p><img src="/2021/02/02/shu-ju-ku-ji-chu-fan-shi/2NF_1.svg" alt="2NF_1"></p>
 <p>&emsp;&emsp;分解为两个关系</p>
 <p>&emsp;&emsp;学生-课程关系（学号，课程号，成绩），码是（学号，课程号）。</p>
 <p>&emsp;&emsp;学生-地址关系（学号，系所，住址），码是学号。</p>
-<p><img src="./数据库基础-范式/2NF_2.svg" alt="2NF_2"></p>
+<p><img src="/2021/02/02/shu-ju-ku-ji-chu-fan-shi/2NF_2.svg" alt="2NF_2"></p>
 <p>&emsp;&emsp;这样每一个关系内都不存在部分函数依赖于码的情况了。</p>
 </blockquote>
 <h3 id="3NF"><a href="#3NF" class="headerlink" title="3NF"></a>3NF</h3><p>&emsp;&emsp;消除非主属性对码的传递函数依赖。即每一个非主属性既不部分依赖于码也不传递依赖于码。</p>
@@ -80,10 +80,10 @@
 <p>&emsp;&emsp;解决的方法是将关系模式分解。</p>
 <blockquote>
 <p>&emsp;&emsp;刚才分解后的学生-地址关系中包含非主属性对码的传递依赖。</p>
-<p><img src="./数据库基础-范式/3NF_1.svg" alt="3NF_1"></p>
+<p><img src="/2021/02/02/shu-ju-ku-ji-chu-fan-shi/3NF_1.svg" alt="3NF_1"></p>
 <p>&emsp;&emsp;可以看到学号-&gt;系所（但没有系所-&gt;学号），系所-&gt;地址。因此按照传递依赖的定义，地址传递依赖于学号。（虽然有学号-&gt;地址但是和我们这里的传递依赖没关系）</p>
 <p>&emsp;&emsp;由于地址是非主属性，因此这是不满足3NF的定义的，需要进行分解。</p>
-<p><img src="./数据库基础-范式/3NF_2.svg" alt="3NF_2"></p>
+<p><img src="/2021/02/02/shu-ju-ku-ji-chu-fan-shi/3NF_2.svg" alt="3NF_2"></p>
 <p>&emsp;&emsp;学号-系所关系（学号，系所），码是学号。</p>
 <p>&emsp;&emsp;系所-地址关系（系所，地址），码是系所。</p>
 <p>&emsp;&emsp;分解后不存在非主属性对码的传递依赖，满足3NF</p>
@@ -104,17 +104,17 @@
 <p>&emsp;&emsp;比分说下面这个例子</p>
 <p>&emsp;&emsp;学生-教师-课程关系（学生，教师，课程）中，教师只教一门课，每门课对应多名教师。学生选定某门课就对应一名教师。</p>
 <p>&emsp;&emsp;码有两个（学生，课程），（学生，教师）</p>
-<p><img src="./数据库基础-范式/BCNF_1.svg" alt="BCNF_1"></p>
+<p><img src="/2021/02/02/shu-ju-ku-ji-chu-fan-shi/BCNF_1.svg" alt="BCNF_1"></p>
 <p>&emsp;&emsp;这里所有属性都是主属性，不存在非主属性，因此满足3NF。</p>
 <p>&emsp;&emsp;但对于课程来说，教师直接决定课程。因此主属性课程对（学生，教师）部分函数依赖，不符合BCNF定义。</p>
 <p>&emsp;&emsp;优化的方法依然是分解。</p>
-<p><img src="./数据库基础-范式/BCNF_2.svg" alt="BCNF_2"></p>
+<p><img src="/2021/02/02/shu-ju-ku-ji-chu-fan-shi/BCNF_2.svg" alt="BCNF_2"></p>
 <p>&emsp;&emsp;学生-教师关系（学生，教师），码是学生。</p>
 <p>&emsp;&emsp;教师-课程关系（教师，课程），码是教师。</p>
 <p>&emsp;&emsp;这样就满足BCNF了。</p>
 </blockquote>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>规范化过程：</p>
-<p><img src="./数据库基础-范式/summary_1.svg" alt="summary_1"></p>
+<p><img src="/2021/02/02/shu-ju-ku-ji-chu-fan-shi/summary_1.svg" alt="summary_1"></p>
 <p>&emsp;&emsp;至此，关于函数依赖相关的范式介绍完毕，但尽管是满足BCNF的关系模式依然有所不足，这时就需要要求4NF进行约束。「关于4NF的讨论见<a href="/TODO">数据库基础-多值依赖与4NF</a>」</p>
 ]]></content>
       <categories>
@@ -122,8 +122,8 @@
         <category>范式</category>
       </categories>
       <tags>
-        <tag>范式</tag>
         <tag>函数依赖</tag>
+        <tag>范式</tag>
       </tags>
   </entry>
   <entry>
